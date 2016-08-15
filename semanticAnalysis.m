@@ -12,13 +12,13 @@ textVector = textMatrix{1,1};
 fclose(fileID);
 semanticMatrix = cell(size(textVector,1),2);
 indexVector = cell(size(textVector,1),1);
-noteIndexVector = cell(size(noteVector,1),1);
 indexOfTrue = 1;
 
 % Instagram Update Description
 noteID = fopen('instagramUpdateNote.txt');
 noteMatrix = textscan(noteID,'%s');
 noteVector = noteMatrix{1,1};
+noteIndexVector = cell(size(noteVector,1),1);
 fclose(noteID);
 
 % Loops through the textVector and finds unique words in the passage and
@@ -60,7 +60,7 @@ for index = 1 : size(textVector,1)
         indexVector = cell(size(textVector,1),1);
     end
 end
-noteWordIndex =  size(indexVector,1);
+noteWordIndex =  size(indexVector,1) + 1;
 for noteIndex = 1 : size(noteVector,1)
     noteWord = noteVector{noteIndex,1};
      if(~strcmp(noteWord,''))
