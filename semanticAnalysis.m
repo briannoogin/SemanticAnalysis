@@ -58,6 +58,10 @@ end
 semanticMatrix(all(cellfun(@isempty,semanticMatrix),2),:) = [];
 
 % Data Transformation through logs
-semanticMatrix(:,2) = num2cell(log2(cell2mat(semanticMatrix(:,2))));
+numericSemantic = cell2mat(semanticMatrix(:,2));
+semanticMatrix(:,2) = num2cell(log2(numericSemantic));
+entropy = -1 .* numericSemantic .* log2(numericSemantic);
+%semanticMatrix(:,2) = num2cell(cell2mat(semanticMatrix(:,2)) ./ entropy);
+[i,j,k] = svd(cell2mat(semanticMatrix(:,2)));
 
 
