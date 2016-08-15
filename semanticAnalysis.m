@@ -1,5 +1,7 @@
 % This program takes string input and performs matrix operations to find
-% relationships between words. 
+% relationships between words in a passage. 
+% The goal of this program is to find relationships in the app description
+% and possiblity in the additional information box.
 % This program will be ported to python when used in App4Tht.
 % Written by Brian Nguyen
 
@@ -47,7 +49,15 @@ for index = 1 : size(textVector,1)
         for deleteIndex = 1: size(trueIndex)
             textVector{trueIndex{deleteIndex,1},1} = '';
         end
+        % Clears indexVector
         indexVector = cell(size(textVector,1),1);
     end
 end
+
+% Removes entries with blanks
+semanticMatrix(all(cellfun(@isempty,semanticMatrix),2),:) = [];
+
+% Data Transformation through logs
+semanticMatrix(:,2) = num2cell(log2(cell2mat(semanticMatrix(:,2))));
+
 
