@@ -10,8 +10,6 @@ fileID = fopen('instagramDescription.txt');
 textMatrix = textscan(fileID,'%s');
 textVector = textMatrix{1,1};
 fclose(fileID);
-%semanticMatrix = cell(size(textVector,1),2);
-%indexVector = cell(size(textVector,1),1);
 indexOfTrue = 1;
 
 % Instagram Update Description
@@ -21,12 +19,13 @@ noteVector = noteMatrix{1,1};
 noteIndexVector = cell(size(noteVector,1),1);
 fclose(noteID);
 
+save('text.mat','textVector');
+save('note.mat','noteVector');
 wordVector= cat(1,textVector,noteVector);
 indexVector = cell(size(wordVector,1),1);
-semanticMatrix = cell(size(wordVector,1),2);
-% Loops through the textVector and finds unique words in the passage and
-% puts it in semanticMatrix along with the number of occurences in the
-% passage.
+semanticMatrix = cell(size(wordVector,1),3);
+% Loops through the wordVector and finds unique words in the passage and
+% puts it in semanticMatrix.
 for index = 1 : size(wordVector,1)
     textWord = wordVector{index};
     % Checks if there is a blank in the matrix because some entries were
@@ -43,7 +42,6 @@ for index = 1 : size(wordVector,1)
         end
         nonZeroIndexVector = cell2mat(indexVector);
         semanticMatrix{index,1} = textWord;
-       % semanticMatrix{index,2} = size(nonZeroIndexVector,1);
         trueIndex = cell(size(nonZeroIndexVector,1),1);
         indexOfTrue = 1;
         % Loops through the indexVector and finds nonzeros which corresponds to
@@ -63,4 +61,14 @@ for index = 1 : size(wordVector,1)
         indexVector = cell(size(wordVector,1),1);
     end
 end
-semanticMatrix(all(cellfun(@isempty,semanticMatrix),2),:) = [];
+% Clears all blank entries
+%semanticMatrix(all(cellfun(@isempty,semanticMatrix),2),:) = [];
+%{
+% Occurences in 1st Text
+for textIndex = 1: size(semanticMatrix,1);
+    desiredWord = textVector{textIndex,1};
+    desiredNote = noteVector{textIndex,1};
+   % if(strcmp(desiredWord,
+end
+
+%}
