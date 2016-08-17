@@ -62,13 +62,25 @@ for index = 1 : size(wordVector,1)
     end
 end
 % Clears all blank entries
-%semanticMatrix(all(cellfun(@isempty,semanticMatrix),2),:) = [];
-%{
-% Occurences in 1st Text
-for textIndex = 1: size(semanticMatrix,1);
-    desiredWord = textVector{textIndex,1};
-    desiredNote = noteVector{textIndex,1};
-   % if(strcmp(desiredWord,
-end
+semanticMatrix(all(cellfun(@isempty,semanticMatrix),2),:) = [];
 
-%}
+% Find occurences for both passages
+occurenceVector = zeros(size(semanticMatrix,1),2);
+for textIndex = 1: size(semanticMatrix,1);
+    desiredWord = semanticMatrix{textIndex,1};
+    % Find occurences for the first passage
+    for occurenceIndex = 1:size(textVector,1)
+     if(strcmp(desiredWord,textVector{occurenceIndex,1}))
+        occurenceVector(textIndex,1) = occurenceVector(textIndex,1) + 1;
+     end
+    end
+    % Find occurences for the second passage
+    for secondOccurenceIndex = 1: size(noteVector,1)
+     if(strcmp(desiredWord,noteVector{secondOccurenceIndex,1}))
+       occurenceVector(textIndex,2) = occurenceVector(textIndex,2) + 1;  
+     end
+    end
+end
+semanticMatrix(:,2:3) = num2cell(occurenceVector);
+
+% Data Transformation
