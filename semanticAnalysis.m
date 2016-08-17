@@ -84,3 +84,9 @@ end
 semanticMatrix(:,2:3) = num2cell(occurenceVector);
 
 % Data Transformation
+numericSemantic = cell2mat(semanticMatrix(:,2:3));
+%semanticMatrix(:,2:3) = num2cell(log2(numericSemantic));
+%entropy = -1 .* numericSemantic .* log2(numericSemantic);
+%semanticMatrix(:,2) = num2cell(cell2mat(semanticMatrix(:,2)) ./ entropy)
+[u,s,v] = svd(cell2mat(semanticMatrix(:,2:3)));
+vs =  v*s.';
