@@ -10,12 +10,12 @@ desiredWord = inputMatrix{matrixIndex,1};
     for structureIndex = 1 : size(documentStruct,2)
        % Loops through all rows in the document matrix
         for documentIndex = 1 : size(documentStruct(structureIndex).File,1);
-        if(strcmp(desiredWord, documentStruct(structureIndex).File{documentIndex}))
-            % Adds one to the cell in the occurence vector if word is found
-            occurenceVector(matrixIndex,structureIndex) = occurenceVector(matrixIndex,structureIndex) + 1;
-        end
+            if(strcmp(desiredWord, documentStruct(structureIndex).File{documentIndex}))
+             % Adds one to the cell in the occurence vector if word is found
+             occurenceVector(matrixIndex,structureIndex) = occurenceVector(matrixIndex,structureIndex) + 1;
+            end
        end
     end
 end
-%inputMatrix(:,2:documentIndex + 1) = num2cell(occurenceVector);
-outputMatrix = cat(2,inputMatrix,occurenceVector);
+inputMatrix(:,2:structureIndex+1) = num2cell(occurenceVector);
+outputMatrix = inputMatrix;
