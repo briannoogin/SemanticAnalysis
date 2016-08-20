@@ -4,19 +4,20 @@ function [outputMatrix] = inputText(textName,inputMatrix)
 % Scans the text file
 fileID = fopen(textName);
 scanMatrix = textscan(fileID,'%s');
+numberOfDocuments = size(inputMatrix,2);
 textVector = scanMatrix{1,1};
+textVector(:,2:numberOfDocuments) = cell(size(textVector,1),numberOfDocuments-1);
 fclose(fileID);
 
 % Adds the new passage to the matrix
-
 textMatrix = cat(1,inputMatrix,textVector);
 % Takes the original size of the inputMatrix and adds an extra column for
 % the new dataset
 outputMatrix = cell(size(textMatrix,1),size(textMatrix,2) + 1);
 indexVector = cell(size(textMatrix,1),1);
 
-% Loops through the wordVector and finds unique words in the passage and
-% puts it in semanticMatrix.
+% Loops through the textMatrix and finds unique words in the passage and
+% puts it in the outputMatrix.
 for index = 1 : size(textMatrix,1)
     textWord = textMatrix{index,1};
     % Checks if there is a blank in the matrix because some entries were
@@ -54,6 +55,7 @@ for index = 1 : size(textMatrix,1)
 end
 % Clears all blank entries
 outputMatrix(all(cellfun(@isempty,outputMatrix),2),:) = [];
+
 
 
     
