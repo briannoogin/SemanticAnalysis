@@ -1,6 +1,6 @@
 % This function handles the input of text.
 % By Brian Nguyen
-function [outputMatrix] = inputText(textName,inputMatrix)
+function [textVector,outputMatrix] = inputText(textName,inputMatrix)
 % Scans the text file
 fileID = fopen(textName);
 scanMatrix = textscan(fileID,'%s');
@@ -8,7 +8,6 @@ numberOfDocuments = size(inputMatrix,2);
 textVector = scanMatrix{1,1};
 textVector(:,2:numberOfDocuments) = cell(size(textVector,1),numberOfDocuments-1);
 fclose(fileID);
-
 % Adds the new passage to the matrix
 textMatrix = cat(1,inputMatrix,textVector);
 % Takes the original size of the inputMatrix and adds an extra column for
