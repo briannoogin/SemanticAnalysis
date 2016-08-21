@@ -45,8 +45,20 @@ end
 
 % Data Transformation
 numericSemantic = cell2mat(semanticMatrix(:,2:size(semanticMatrix,2)));
-%semanticMatrix(:,2:3) = num2cell(log2(numericSemantic));
+numericSemantic = numericSemantic + ones(size(numericSemantic,1),size(numericSemantic,2));
+numericSemantic = log2(numericSemantic);
+
 %entropy = -1 .* numericSemantic .* log2(numericSemantic);
 %semanticMatrix(:,2) = num2cell(cell2mat(semanticMatrix(:,2)) ./ entropy)
+
+% Singular Value Decomposition and Matrix Manipulation 
 [u,s,v] = svd(numericSemantic);
 vs =  v*s.';
+% Keeps only the first 5 singular values and calculates the reconstructed
+% matrix
+reducedS = s;
+reducedS(:,6:size(s,2)) = zeros(size(s,1),size(s,2)-5);
+changedX = u * reducedS * v';
+wordLabels = semanticMatrix(:,1);
+changedSemantic = [wordLabels,num2cell(changedX)];
+correlationMatrix = changedX.'*changedX;
